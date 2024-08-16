@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Keyword Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #inputArea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        #processButton {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #processButton:hover {
+            background-color: #218838;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .result-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Text Keyword Analyzer</h1>
+
+<textarea id="inputArea" placeholder="Paste your text here..."></textarea>
+
+<button id="processButton">Process Text</button>
+
+<div id="results"></div>
+
+<script>
+    document.getElementById('processButton').addEventListener('click', function() {
+        const text = document.getElementById('inputArea').value;
+        const keywords = {
+            'Late hello': 0,
+            'Release': 0,
+            'No rebuttals': 0,
+            'Agent didn\'t speak': 0,
+            'No issue': 0,
+            'Wrong dispo': 0
+        };
+        let totalOccurrences = 0;
+
+        // Count occurrences of each keyword
+        for (const keyword in keywords) {
+            const regex = new RegExp(keyword, 'gi');
+            const count = (text.match(regex) || []).length;
+            keywords[keyword] = count;
+            totalOccurrences += count;
+        }
+
+        // Display the results
+        let resultsHtml = '';
+        for (const keyword in keywords) {
+            const count = keywords[keyword];
+            const percentage = totalOccurrences ? ((count / totalOccurrences) * 100).toFixed(2) : 0;
+            resultsHtml += `<div class="result-item">
+                                <strong>${keyword}</strong>: ${count} occurrences (${percentage}%)
+                            </div>`;
+        }
+
+        document.getElementById('results').innerHTML = resultsHtml;
+    });
+</script>
+
+</body>
+</html>
